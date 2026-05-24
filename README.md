@@ -1,7 +1,6 @@
 🧠 Recommended GitHub Repository Description
 
-SYNAPZ — The world’s first AI-driven meme intelligence network built on Solana.
-Merging artificial intelligence, robotics, and community-driven evolution into a self-learning ecosystem.
+SYNAPZ — a governed AI intelligence fabric for advanced orchestration, simulation, frontier research and quantum-inspired optimisation.
 
 🌐 Website: https://synapzgroup.com/
 
