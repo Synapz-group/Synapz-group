@@ -1,0 +1,25 @@
+{
+  "name": "@synapz/evidence-bus",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "exports": { ".": "./dist/src/emitter.js", "./server": "./dist/src/server.js" },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src test scripts public examples playwright.config.ts eslint.config.js --max-warnings 0",
+    "test": "tsx --test test/unit.test.ts test/adversarial.test.ts",
+    "test:e2e": "tsx --test --test-concurrency=1 test/e2e.test.ts",
+    "test:ui": "playwright test",
+    "start": "node dist/src/main.js",
+    "migrate": "tsx src/migrate.ts",
+    "reconcile": "tsx src/reconcile-cli.ts",
+    "scan": "node scripts/scan.mjs",
+    "fixtures": "tsx scripts/fixtures.ts",
+    "demo": "tsx scripts/demo.ts",
+    "verify": "node scripts/verify.mjs"
+  },
+  "dependencies": { "ajv": "^8.17.1", "ajv-formats": "^3.0.1", "pg": "^8.16.3" },
+  "devDependencies": { "@eslint/js": "^9.39.1", "@playwright/test": "^1.56.1", "@types/node": "^24.10.0", "@types/pg": "^8.15.6", "eslint": "^9.39.1", "globals": "^16.5.0", "tsx": "^4.20.6", "typescript": "^5.9.3", "typescript-eslint": "^8.46.4" }
+}

@@ -1,0 +1,10 @@
+import { readFile } from 'node:fs/promises';
+const file=process.argv[2], endpoint=process.env.EVIDENCE_OWNER_URL, token=process.env.EVIDENCE_OWNER_TOKEN;
+if(!file || !endpoint || !token) throw new Error('missing_reconciliation_configuration');
+const url=new URL(endpoint);
+if(url.protocol!=='https:' && !(url.protocol==='http:' && url.hostname==='127.0.0.1')) throw new Error('unsafe_endpoint');
+url.pathname='/v1/owner/reconcile';
+const observations: unknown=JSON.parse(await readFile(file,'utf8'));
+const response=await fetch(url,{method:'POST',headers:{'content-type':'application/json',authorization:`Bearer ${token}`},body:JSON.stringify({observations}),redirect:'error',signal:AbortSignal.timeout(15000)});
+if(!response.ok) throw new Error(`reconciliation_failed_${response.status}`);
+process.stdout.write(JSON.stringify(await response.json(),null,2)+'\n');

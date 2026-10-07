@@ -1,0 +1,32 @@
+name: Structured engineering evidence
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    environment: evidence-publisher
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+      - name: Emit authoritative structured engineering results
+        run: |
+          # Repo-owned code must run tests/build and write the versioned manifest directly.
+          # This script is supplied by the onboarding source repository; never parse terminal prose.
+          python scripts/engineering_evidence.py --output engineering-manifest.json
+      - name: Validate and submit
+        env:
+          EVIDENCE_INGEST_URL: ${{ vars.EVIDENCE_INGEST_URL }}
+          EVIDENCE_SIGNING_KEY: ${{ secrets.EVIDENCE_SIGNING_KEY }}
+        run: |
+          python -m pip install -r evidence-bus/python/requirements.txt
+          python evidence-bus/python/emitter.py engineering-manifest.json --create --output manifest.json --send
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sanitized-evidence-manifest
+          path: manifest.json
+          retention-days: 14

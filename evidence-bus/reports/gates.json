@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1",
+  "generatedAt": "2026-10-07T12:31:08.021Z",
+  "synthetic": true,
+  "gates": [
+    {
+      "name": "typecheck",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "lint",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "production_build",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "unit_schema_policy_emitter",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 49,
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "adversarial_postgres",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 33,
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "e2e_postgres_http_emitters",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "browser_e2e_compiled",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "python_emitter",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "signed_manifest_projection_reconciliation_proof",
+      "status": "PASS",
+      "exitCode": 0,
+      "proofSteps": 14
+    },
+    {
+      "name": "node_dependency_audit",
+      "status": "PASS",
+      "exitCode": 0,
+      "vulnerabilities": 0
+    },
+    {
+      "name": "python_dependency_audit",
+      "status": "PASS",
+      "exitCode": 0,
+      "packages": 6,
+      "vulnerabilities": 0
+    },
+    {
+      "name": "secret_privacy_client_scan",
+      "status": "PASS",
+      "exitCode": 0,
+      "filesScanned": 61,
+      "ruleSelfTests": 7,
+      "findings": 0
+    },
+    {
+      "name": "gitleaks_default_rules",
+      "status": "PASS",
+      "exitCode": 0,
+      "findings": 0
+    }
+  ],
+  "totalTests": 114,
+  "status": "PASS"
+}

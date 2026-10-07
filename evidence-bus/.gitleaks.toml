@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Third-party installations, downloaded scanner binaries and generated browser traces; all authored source and production output remain scanned"
+paths = ['''(^|[/\\])(node_modules|\.venv|\.tools|test-results|playwright-report)([/\\])''']

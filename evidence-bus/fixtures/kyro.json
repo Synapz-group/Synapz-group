@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0",
+  "eventId": "6a54e5d2-62d7-483e-b972-7aeb7a61e09d",
+  "sourceSystem": "kyro",
+  "sourceRepoSafeKey": "kyro-demo",
+  "sourceType": "ci",
+  "branch": "demo/evidence",
+  "commitSha": "1111111111111111111111111111111111111111",
+  "emittedAt": "2026-10-07T00:00:00.000Z",
+  "environment": "local",
+  "maturity": "QUALIFIED",
+  "result": "pass",
+  "title": "Synthetic kyro engineering evidence",
+  "summary": "Synthetic media pipeline qualification; generated media artifact available; provider and live jobs disabled.",
+  "evidence": [
+    {
+      "type": "test_report",
+      "artifactKey": "kyro-report",
+      "sha256": "a280d1ff0c392cd6671ba0c1c525927e0edbb8148ec72c1b6c3e1915bebee3da",
+      "summary": "Synthetic machine-readable test report"
+    },
+    {
+      "type": "generated_artifact",
+      "artifactKey": "kyro-media-demo",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "summary": "Synthetic media artifact"
+    }
+  ],
+  "tests": {
+    "passed": 36,
+    "failed": 0,
+    "skipped": 2,
+    "subtests": 0
+  },
+  "build": {
+    "status": "pass",
+    "artifactKey": "kyro-build"
+  },
+  "limitations": [
+    "Synthetic demo only; no production, mainnet, real funds, custody, KYC or legal approval.",
+    "Media production is not blockchain evidence. No live provider jobs."
+  ],
+  "nextSteps": [
+    "Owner to review structured evidence before publication."
+  ],
+  "tags": [
+    "demo",
+    "kyro"
+  ],
+  "relationships": [],
+  "disclosureClass": "partner",
+  "autoPublishEligible": true,
+  "synthetic": true,
+  "risk": {
+    "regulatory": false,
+    "namedParties": false,
+    "commercial": false,
+    "sensitive": false,
+    "realExecution": false
+  },
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "keyId": "kyro-v1"
+  },
+  "deployment": {
+    "state": "none",
+    "providerLive": false,
+    "liveJobs": 0
+  }
+}

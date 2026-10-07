@@ -1,0 +1,6 @@
+{
+  "scanner": "synapz-secret-privacy-v1",
+  "filesScanned": 61,
+  "ruleSelfTests": 7,
+  "findings": []
+}

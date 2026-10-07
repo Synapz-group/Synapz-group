@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "eventId": "e4d3391c-4f49-4655-8424-3f6176ca036c",
+  "sourceSystem": "multichain",
+  "sourceRepoSafeKey": "multichain-demo",
+  "sourceType": "ci",
+  "branch": "demo/evidence",
+  "commitSha": "1111111111111111111111111111111111111111",
+  "emittedAt": "2026-10-07T00:00:00.000Z",
+  "environment": "testnet",
+  "maturity": "TESTNET",
+  "result": "pass",
+  "title": "Synthetic multichain engineering evidence",
+  "summary": "Synthetic requests 2–7 finalized on disposable public testnet.",
+  "evidence": [
+    {
+      "type": "test_report",
+      "artifactKey": "multichain-report",
+      "sha256": "3a575de3e54451fa386b023f7df67ad017a0d87ceb71ea21b167c8a01343825e",
+      "summary": "Synthetic machine-readable test report"
+    }
+  ],
+  "tests": {
+    "passed": 423,
+    "failed": 0,
+    "skipped": 0,
+    "subtests": 75
+  },
+  "build": {
+    "status": "pass",
+    "artifactKey": "multichain-build"
+  },
+  "limitations": [
+    "Synthetic demo only; no production, mainnet, real funds, custody, KYC or legal approval.",
+    "Request 8 disabled. TESTNET/DEVELOPMENT only; no production or mainnet claim."
+  ],
+  "nextSteps": [
+    "Owner to review structured evidence before publication."
+  ],
+  "tags": [
+    "demo",
+    "multichain",
+    "solana"
+  ],
+  "relationships": [],
+  "disclosureClass": "partner",
+  "autoPublishEligible": true,
+  "synthetic": true,
+  "risk": {
+    "regulatory": false,
+    "namedParties": false,
+    "commercial": false,
+    "sensitive": false,
+    "realExecution": false
+  },
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "keyId": "multichain-v1"
+  },
+  "blockchain": {
+    "network": "testnet",
+    "signing": true,
+    "broadcast": true,
+    "realFunds": false,
+    "custody": false,
+    "addresses": []
+  }
+}

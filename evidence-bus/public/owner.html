@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SYNAPZ Evidence Bus • Owner</title><link rel="stylesheet" href="/owner.css"><script src="/owner.js" defer></script></head>
+<body><header><span class="brand">SYNAPZ / EVIDENCE BUS</span><h1>Engineering evidence, governed.</h1><p>Inspect provenance. Review changes. Publish with intent.</p></header>
+<main><section id="login"><h2>Owner session</h2><form id="connect"><label>Owner access credential <input id="credential" type="password" autocomplete="off" required></label><button>Connect</button></form><p>Credentials stay in memory for this tab and are never saved or shown.</p></section>
+<section id="workspace" hidden><div class="toolbar"><button id="refresh">Refresh</button><button id="disconnect">Disconnect</button><span id="count"></span></div>
+<nav aria-label="Evidence views" id="views"></nav><div id="list"></div>
+<section><h2>Reconcile structured source observations</h2><p>Supply observations from your trusted server-side source job. Missing sources remain published and are flagged.</p><label>Observation array <textarea id="observations" rows="5" placeholder="[]"></textarea></label><button id="reconcile">Run reconciliation</button></section></section>
+<p id="message" role="status" aria-live="polite"></p></main><footer>Manifest → validation → policy → approval → reviewer projection</footer></body></html>

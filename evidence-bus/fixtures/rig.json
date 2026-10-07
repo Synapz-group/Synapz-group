@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0",
+  "eventId": "b8cb10e6-5311-4c02-a2e0-2beb6feb8c99",
+  "sourceSystem": "rig",
+  "sourceRepoSafeKey": "rig-demo",
+  "sourceType": "ci",
+  "branch": "demo/evidence",
+  "commitSha": "1111111111111111111111111111111111111111",
+  "emittedAt": "2026-10-07T00:00:00.000Z",
+  "environment": "local",
+  "maturity": "QUALIFIED",
+  "result": "pass",
+  "title": "Synthetic rig engineering evidence",
+  "summary": "Synthetic local Solana validator qualification: Token-2022 mint, transfer, burn and supply inspection; local governance, vesting and compliance references.",
+  "evidence": [
+    {
+      "type": "test_report",
+      "artifactKey": "rig-report",
+      "sha256": "2d18648026e04d5a612cfdc48f13639849e610548fd3943557a21ba800c8a970",
+      "summary": "Synthetic machine-readable test report"
+    },
+    {
+      "type": "dependency_audit",
+      "artifactKey": "rig-production-audit",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "summary": "Synthetic production dependency audit clean"
+    }
+  ],
+  "tests": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "subtests": 0
+  },
+  "build": {
+    "status": "pass",
+    "artifactKey": "rig-build"
+  },
+  "limitations": [
+    "Synthetic demo only; no production, mainnet, real funds, custody, KYC or legal approval.",
+    "Local validator only; no devnet, mainnet, real funds, KYC, custody or legal approval."
+  ],
+  "nextSteps": [
+    "Owner to review structured evidence before publication."
+  ],
+  "tags": [
+    "demo",
+    "rig",
+    "solana"
+  ],
+  "relationships": [],
+  "disclosureClass": "partner",
+  "autoPublishEligible": true,
+  "synthetic": true,
+  "risk": {
+    "regulatory": false,
+    "namedParties": false,
+    "commercial": false,
+    "sensitive": false,
+    "realExecution": false
+  },
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "keyId": "rig-v1"
+  },
+  "blockchain": {
+    "network": "local",
+    "signing": true,
+    "broadcast": true,
+    "realFunds": false,
+    "custody": false,
+    "addresses": []
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0",
+  "eventId": "cfd43222-ca2e-4a74-b13b-5fd5808ffcdd",
+  "sourceSystem": "trade-x",
+  "sourceRepoSafeKey": "trade-x-demo",
+  "sourceType": "ci",
+  "branch": "demo/evidence",
+  "commitSha": "1111111111111111111111111111111111111111",
+  "emittedAt": "2026-10-07T00:00:00.000Z",
+  "environment": "development",
+  "maturity": "PAPER",
+  "result": "pass",
+  "title": "Synthetic trade-x engineering evidence",
+  "summary": "Synthetic PAPER research active; healthy feed; paper equity only; zero positions and orders.",
+  "evidence": [
+    {
+      "type": "test_report",
+      "artifactKey": "trade-x-report",
+      "sha256": "ee489ca950633868d93fcaba2fdfe3159da8fd07618c515632d16eb2afb0cf53",
+      "summary": "Synthetic machine-readable test report"
+    }
+  ],
+  "tests": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "subtests": 0
+  },
+  "build": {
+    "status": "pass",
+    "artifactKey": "trade-x-build"
+  },
+  "limitations": [
+    "Synthetic demo only; no production, mainnet, real funds, custody, KYC or legal approval.",
+    "Funded execution, signer, real orders and live trading disabled."
+  ],
+  "nextSteps": [
+    "Owner to review structured evidence before publication."
+  ],
+  "tags": [
+    "demo",
+    "trade-x"
+  ],
+  "relationships": [],
+  "disclosureClass": "partner",
+  "autoPublishEligible": true,
+  "synthetic": true,
+  "risk": {
+    "regulatory": false,
+    "namedParties": false,
+    "commercial": false,
+    "sensitive": false,
+    "realExecution": false
+  },
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "keyId": "trade-x-v1"
+  },
+  "runtime": {
+    "state": "healthy",
+    "positions": 0,
+    "orders": 0,
+    "paperEquity": 100000
+  },
+  "blockchain": {
+    "network": "none",
+    "signing": false,
+    "broadcast": false,
+    "realFunds": false,
+    "custody": false,
+    "addresses": []
+  }
+}

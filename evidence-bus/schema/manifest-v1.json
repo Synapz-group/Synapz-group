@@ -1,0 +1,468 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sourceSystem": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+    },
+    "sourceRepoSafeKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "ci",
+        "supervisor",
+        "deployment",
+        "manual"
+      ]
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_./-]*$"
+    },
+    "commitSha": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "emittedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "local",
+        "development",
+        "testnet",
+        "staging",
+        "production"
+      ]
+    },
+    "maturity": {
+      "type": "string",
+      "enum": [
+        "VERIFIED",
+        "QUALIFIED",
+        "DEPLOYED",
+        "TESTNET",
+        "PAPER",
+        "SHADOW",
+        "DEVELOPMENT",
+        "PROTOTYPE",
+        "PLANNED",
+        "TARGET",
+        "INTEGRATION_IN_PROGRESS"
+      ]
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "partial",
+        "pending"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "test_report",
+              "build_report",
+              "runtime_evidence",
+              "deployment_observation",
+              "transaction_receipt",
+              "security_scan",
+              "dependency_audit",
+              "supervisor_completion",
+              "generated_artifact",
+              "documentation",
+              "human_review_required"
+            ]
+          },
+          "artifactKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "pattern": "^https://[a-zA-Z0-9.-]+/[^\\s]*$"
+          }
+        },
+        "required": [
+          "type",
+          "artifactKey",
+          "sha256",
+          "summary"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 50,
+      "uniqueItems": true
+    },
+    "tests": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "passed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "subtests": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "required": [
+        "passed",
+        "failed",
+        "skipped",
+        "subtests"
+      ]
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "pending"
+          ]
+        },
+        "artifactKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+        }
+      },
+      "required": [
+        "status",
+        "artifactKey"
+      ]
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "none",
+            "observed",
+            "deployed"
+          ]
+        },
+        "providerLive": {
+          "type": "boolean"
+        },
+        "liveJobs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "required": [
+        "state",
+        "providerLive",
+        "liveJobs"
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "healthy",
+            "degraded",
+            "stopped",
+            "unknown"
+          ]
+        },
+        "positions": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "orders": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "paperEquity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        }
+      },
+      "required": [
+        "state",
+        "positions",
+        "orders"
+      ]
+    },
+    "blockchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "network": {
+          "type": "string",
+          "enum": [
+            "none",
+            "local",
+            "testnet",
+            "mainnet"
+          ]
+        },
+        "signing": {
+          "type": "boolean"
+        },
+        "broadcast": {
+          "type": "boolean"
+        },
+        "realFunds": {
+          "type": "boolean"
+        },
+        "custody": {
+          "type": "boolean"
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 50,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "network",
+        "signing",
+        "broadcast",
+        "realFunds",
+        "custody",
+        "addresses"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "minItems": 1,
+      "maxItems": 50,
+      "uniqueItems": true
+    },
+    "nextSteps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "minItems": 0,
+      "maxItems": 50,
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+      },
+      "minItems": 0,
+      "maxItems": 50,
+      "uniqueItems": true
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+      },
+      "minItems": 0,
+      "maxItems": 50,
+      "uniqueItems": true
+    },
+    "disclosureClass": {
+      "type": "string",
+      "enum": [
+        "public",
+        "partner",
+        "restricted"
+      ]
+    },
+    "autoPublishEligible": {
+      "type": "boolean"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regulatory": {
+          "type": "boolean"
+        },
+        "namedParties": {
+          "type": "boolean"
+        },
+        "commercial": {
+          "type": "boolean"
+        },
+        "sensitive": {
+          "type": "boolean"
+        },
+        "realExecution": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "regulatory",
+        "namedParties",
+        "commercial",
+        "sensitive",
+        "realExecution"
+      ]
+    },
+    "supersedes": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "hmac-sha256"
+        },
+        "keyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
+        }
+      },
+      "required": [
+        "algorithm",
+        "keyId"
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "sourceSystem",
+    "sourceRepoSafeKey",
+    "sourceType",
+    "branch",
+    "commitSha",
+    "emittedAt",
+    "environment",
+    "maturity",
+    "result",
+    "title",
+    "summary",
+    "evidence",
+    "limitations",
+    "nextSteps",
+    "tags",
+    "relationships",
+    "disclosureClass",
+    "autoPublishEligible",
+    "synthetic",
+    "risk",
+    "signature"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.synapz.example/evidence/v1.json",
+  "title": "SYNAPZ Evidence Manifest v1"
+}

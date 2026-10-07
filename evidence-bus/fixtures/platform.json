@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0",
+  "eventId": "64735de3-5e75-44fa-afe7-aa072b1b4c67",
+  "sourceSystem": "platform",
+  "sourceRepoSafeKey": "platform-demo",
+  "sourceType": "supervisor",
+  "branch": "demo/evidence",
+  "commitSha": "1111111111111111111111111111111111111111",
+  "emittedAt": "2026-10-07T00:00:00.000Z",
+  "environment": "local",
+  "maturity": "QUALIFIED",
+  "result": "pass",
+  "title": "Synthetic platform engineering evidence",
+  "summary": "Synthetic supervisor COMPLETE marker; PRIME and Platform commits recorded as separate demo evidence artifacts. Node failure recovery, Solana adapter and Golden Path 2.",
+  "evidence": [
+    {
+      "type": "test_report",
+      "artifactKey": "platform-report",
+      "sha256": "f7c1bb41bdce177d273db1b0fc142713384ddcc0362672967c7adaeb6b5e7d79",
+      "summary": "Synthetic machine-readable test report"
+    },
+    {
+      "type": "supervisor_completion",
+      "artifactKey": "supervisor-complete",
+      "sha256": "264de8036e2ee2a0100c0327b1caf22e1ad471363f9703931fe7f14b1f8b076f",
+      "summary": "Synthetic supervisor-complete structured evidence"
+    },
+    {
+      "type": "generated_artifact",
+      "artifactKey": "prime-commit",
+      "sha256": "78d1788fb5edbb623c5d41fba0e10a290080131f5265c81bcd50916d51b6054e",
+      "summary": "Synthetic prime-commit structured evidence"
+    },
+    {
+      "type": "generated_artifact",
+      "artifactKey": "platform-commit",
+      "sha256": "a465137d042ff6790694c326a00e00b968595ac30f07e7e8630fe0ec12d037a2",
+      "summary": "Synthetic platform-commit structured evidence"
+    },
+    {
+      "type": "generated_artifact",
+      "artifactKey": "node-failure-recovery",
+      "sha256": "ca5a11679578dda8b7d99ce5b3f7918ecf908b277564c3c38f97be247912d58d",
+      "summary": "Synthetic node-failure-recovery structured evidence"
+    },
+    {
+      "type": "generated_artifact",
+      "artifactKey": "solana-adapter",
+      "sha256": "7123840d01136b231e2ab25227c405ecea61357fbc2d8a4de0244456d840b373",
+      "summary": "Synthetic solana-adapter structured evidence"
+    },
+    {
+      "type": "generated_artifact",
+      "artifactKey": "golden-path-2",
+      "sha256": "03e713dded05dae8be9b62df94bbae1bcc459eb5c50679d10d385bb3a965c402",
+      "summary": "Synthetic golden-path-2 structured evidence"
+    }
+  ],
+  "tests": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "subtests": 0
+  },
+  "build": {
+    "status": "pass",
+    "artifactKey": "platform-build"
+  },
+  "limitations": [
+    "Synthetic demo only; no production, mainnet, real funds, custody, KYC or legal approval."
+  ],
+  "nextSteps": [
+    "Owner to review structured evidence before publication."
+  ],
+  "tags": [
+    "demo",
+    "platform"
+  ],
+  "relationships": [
+    "prime",
+    "platform",
+    "solana"
+  ],
+  "disclosureClass": "partner",
+  "autoPublishEligible": true,
+  "synthetic": true,
+  "risk": {
+    "regulatory": false,
+    "namedParties": false,
+    "commercial": false,
+    "sensitive": false,
+    "realExecution": false
+  },
+  "signature": {
+    "algorithm": "hmac-sha256",
+    "keyId": "platform-v1"
+  }
+}
