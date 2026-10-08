@@ -1,4 +1,6 @@
-# COMPLETED — standalone Solana Foundation Showcase
+# Historical standalone verification — 2026-10-07
+
+**Superseded for the current completion mission:** see [COMPLETION_REPORT.md](COMPLETION_REPORT.md). The original results below describe the earlier standalone build. Current status is **SAFE_TO_PUBLISH_FOR_SOLANA = NO**, pending host source, reviewer-access implementation and host regressions.
 
 Branch: `feature/solana-foundation-showcase-codex`.
 Verification date: 2026-10-07. Runtime: Node 24.16.0 on Windows.

@@ -23,7 +23,9 @@ test("loads all mandatory sections and has no console-breaking errors", async ({
     "Latest Engineering Snapshot",
     "Showcase Copilot",
   ])
-    await expect(page.getByRole("heading", { name: title })).toBeAttached();
+    await expect(
+      page.getByRole("heading", { name: title, exact: true }),
+    ).toBeAttached();
   expect(errors).toEqual([]);
 });
 test("global proof filter and full vision restoration", async ({ page }) => {
@@ -77,9 +79,7 @@ test("logical capacity disclaimer and present versus target", async ({
     page.getByText("PRESENT FABRIC", { exact: true }),
   ).toBeAttached();
   await expect(
-    page.getByText(
-      /The 1,024 figure is the target\/configured logical capacity/,
-    ),
+    page.getByText(/1,024 is logical-capacity \/ target architecture/),
   ).toBeAttached();
 });
 test("traverses the full Solana integration path", async ({ page }) => {
@@ -90,9 +90,7 @@ test("traverses the full Solana integration path", async ({ page }) => {
     await buttons.nth(i).click();
     await expect(buttons.nth(i)).toHaveAttribute("aria-pressed", "true");
   }
-  await expect(
-    page.getByText(/Propagate only with explicit policy/),
-  ).toBeVisible();
+  await expect(page.getByText(/Record outcomes, cluster/)).toBeVisible();
 });
 test("comparison and unfinished roadmap", async ({ page }) => {
   await expect(
@@ -102,9 +100,9 @@ test("comparison and unfinished roadmap", async ({ page }) => {
     page.getByRole("columnheader", { name: "COMPLETED INTEGRATION TARGET" }),
   ).toBeAttached();
   await expect(page.locator("tbody tr")).toHaveCount(11);
-  await expect(page.locator(".roadmap li")).toHaveCount(14);
+  await expect(page.locator(".roadmap li")).toHaveCount(12);
   await expect(page.locator(".roadmap .badge")).toHaveText(
-    Array(14).fill("PLANNED: Unfinished work with no implementation claim."),
+    Array(12).fill("PLANNED: Unfinished work with no implementation claim."),
   );
 });
 test("evidence drilldown and authorized deep-link refresh", async ({

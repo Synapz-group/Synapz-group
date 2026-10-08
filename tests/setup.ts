@@ -11,3 +11,5 @@ HTMLDialogElement.prototype.showModal = function () {
 HTMLDialogElement.prototype.close = function () {
   this.open = false;
 };
+
+HTMLElement.prototype.scrollIntoView = function () {};

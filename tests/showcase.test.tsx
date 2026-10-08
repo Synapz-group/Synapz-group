@@ -13,7 +13,6 @@ import {
   brainNames,
   capacityDisclaimer,
   copilotPrompts,
-  roadmap,
 } from "../src/showcase/model";
 const mount = async (props = {}) => {
   render(<Showcase adapter={demoAdapter} {...props} />);
@@ -129,7 +128,7 @@ describe("mandatory showcase experience", () => {
     );
     expect(
       screen.queryByRole("heading", { name: "How PRIME Actually Thinks" }),
-    ).not.toBeInTheDocument();
+    ).toBeInTheDocument();
     expect(
       screen.getAllByText("No approved implementation evidence published yet.")
         .length,
@@ -162,12 +161,10 @@ describe("mandatory showcase experience", () => {
     fireEvent.click(
       within(screen.getByLabelText("Solana integration flow")).getByRole(
         "button",
-        { name: /08 Multichain/ },
+        { name: /08 Evidence/ },
       ),
     );
-    expect(
-      screen.getByText(/Propagate only with explicit policy/),
-    ).toBeVisible();
+    expect(screen.getByText(/Record outcomes, cluster/)).toBeVisible();
   });
   it("separates current evidence from completed target", async () => {
     await mount();
@@ -186,10 +183,10 @@ describe("mandatory showcase experience", () => {
     await mount();
     const list = document.querySelector(".roadmap")!;
     expect(within(list as HTMLElement).getAllByRole("listitem")).toHaveLength(
-      roadmap.length,
+      12,
     );
     expect(within(list as HTMLElement).getAllByText("PLANNED")).toHaveLength(
-      14,
+      12,
     );
   });
   it("opens evidence with dates, scope and limitations", async () => {

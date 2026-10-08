@@ -1,5 +1,19 @@
 # Standalone Showcase → Technical Atlas handoff
 
+## 2026-10-08 completion candidate
+
+See [COMPLETION_REPORT.md](COMPLETION_REPORT.md). This branch is a tested standalone source candidate, **not SAFE TO PUBLISH**. The audited host source is unavailable in this checkout. Guest/investor access, host API wiring, live Copilot adversarial tests and host security verification remain pending Codex work when that source is supplied. Do not use Replit Agent for implementation. No deployment is authorized by this handoff.
+
+### Navigation and evidence freshness integration
+
+All nine section anchors now remain mounted in both modes. Current Proof still filters target map nodes and the comparison target column; explanatory TARGET flows remain explicitly labelled. The roadmap anchor is `#finished`; `#roadmap` remains a compatibility alias. Hash navigation updates the current link and scrolls after mount, including history traversal.
+
+The module caches validated list projections for 60 seconds after successful loading, keyed by adapter identity, reviewer tier and preview scope. Concurrent loads share a promise; each consumer receives a clone. View state never triggers list retrieval. A remount within freshness reuses the projection; an expired remount retrieves it. There is no background polling.
+
+Create a stable adapter per authenticated session, **never one shared across identities** and never a new adapter on every render. The server must continue authorizing every network request. Import `invalidateShowcaseEvidence(adapter)` for logout, revocation, approved publication changes and permission changes. It immediately removes visible claims in mounted consumers and rejects responses from earlier revisions. On logout/identity change, unmount the protected route and replace its adapter; invalidation alone does not revoke a server session. These host hooks must be verified against the actual `/api/review/showcase` network traffic before claiming the endpoint issue closed.
+
+The added engineering text uses audit-reported qualification references and explicit missing-evidence labels. It does not insert records into the approved feed. Official Solana documentation supports platform context only, never a SYNAPZ implementation claim.
+
 No Replit files or live application have been modified. This handoff is for a later host integration.
 
 ## Files to import

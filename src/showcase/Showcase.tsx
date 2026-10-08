@@ -1,4 +1,11 @@
-import { useEffect, useId, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import {
   architecture,
   brainNames,
@@ -7,7 +14,6 @@ import {
   maturityLegend,
   noEvidence,
   primeSteps,
-  roadmap,
   solanaSteps,
   type CurrentEvidence,
   type Maturity,
@@ -15,7 +21,12 @@ import {
   type ShowcaseContext,
   type ShowcaseEvidenceAdapter,
 } from "./model";
-import { loadVisibleEvidence } from "./adapter";
+import {
+  evidenceRevision,
+  loadCachedEvidence,
+  subscribeEvidence,
+} from "./cache";
+import { CompletionRoadmap, SolanaEngineering, WhySolana } from "./ReviewDepth";
 import {
   Copilot,
   ShowcaseCopilotProvider,
@@ -40,7 +51,7 @@ const nav = [
   ["fabric", "Logical fabric"],
   ["solana-path", "Solana path"],
   ["comparison", "Current vs completed"],
-  ["roadmap", "What will be finished"],
+  ["finished", "What will be finished"],
   ["why-solana", "Why Solana"],
   ["evidence", "Evidence"],
   ["copilot", "Copilot"],
@@ -146,6 +157,10 @@ export function Showcase({
   pendingSummary,
   copilotBridge,
 }: ShowcaseProps) {
+  const revision = useSyncExternalStore(
+    useCallback((listener) => subscribeEvidence(adapter, listener), [adapter]),
+    useCallback(() => evidenceRevision(adapter), [adapter]),
+  );
   const [mode, setMode] = useState<Mode>("full_vision");
   const [section, setSection] = useState("system");
   const [selected, setSelected] = useState<string>();
@@ -155,9 +170,14 @@ export function Showcase({
   const [authority, setAuthority] = useState<{
     adapter: ShowcaseEvidenceAdapter;
     tier: string;
+    revision: number;
+    ownerPreview: boolean;
   }>();
   const evidence =
-    authority?.adapter === adapter && authority.tier === reviewerTier
+    authority?.adapter === adapter &&
+    authority.tier === reviewerTier &&
+    authority.revision === revision &&
+    authority.ownerPreview === ownerPreview
       ? records
       : [];
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
@@ -175,17 +195,16 @@ export function Showcase({
   };
   useEffect(() => {
     let cancelled = false;
-    loadVisibleEvidence(adapter, {
+    loadCachedEvidence(adapter, {
       reviewerTier,
-      mode,
       ownerPreview,
-      currentSection: section,
-      selectedNode: selected,
+      mode: "current_proof",
+      currentSection: "system",
     })
       .then((records) => {
         if (!cancelled) {
           setEvidence(records);
-          setAuthority({ adapter, tier: reviewerTier });
+          setAuthority({ adapter, tier: reviewerTier, revision, ownerPreview });
           setStatus("ready");
         }
       })
@@ -198,9 +217,19 @@ export function Showcase({
     return () => {
       cancelled = true;
     };
-  }, [adapter, reviewerTier, mode, ownerPreview, section, selected]);
+  }, [adapter, reviewerTier, ownerPreview, revision]);
   useEffect(() => {
     const readHash = () => {
+      const hash = window.location.hash.slice(1);
+      const key = hash === "roadmap" ? "finished" : hash;
+      if (nav.some(([id]) => id === key)) {
+        setSection(key);
+        setOpened(undefined);
+        setSelected(undefined);
+        requestAnimationFrame(() =>
+          document.getElementById(key)?.scrollIntoView(),
+        );
+      }
       const match = /^#evidence\/([a-z][a-z0-9-]{0,63})$/.exec(
         window.location.hash,
       );
@@ -481,130 +510,133 @@ export function Showcase({
                 and remaining work.
               </p>
             </section>
-            {mode === "full_vision" && (
-              <>
-                <section id="thinking">
-                  <div className="section-heading">
-                    <span className="ordinal">02 / DECISION LIFECYCLE</span>
-                    <h2>How PRIME Actually Thinks</h2>
-                    <p>
-                      Work preparation, independent evaluation, governance and
-                      execution are separate responsibilities.
-                    </p>
-                  </div>
-                  <div className="brain-strip">
-                    {brainNames.map((b) => (
-                      <span key={b}>{b}</span>
-                    ))}
-                  </div>
-                  <Flow
-                    title="PRIME ordered thinking flow"
-                    steps={primeSteps}
-                  />
-                  <p className="boundary">
-                    Missing identity/policy/evidence/approval/simulation/signer
-                    requirements fail closed. Specialists prepare work but do
-                    not self-approve. Execution and evidence are distinct
-                    stages.
+            <>
+              <section id="thinking">
+                <div className="section-heading">
+                  <span className="ordinal">02 / DECISION LIFECYCLE</span>
+                  <h2>How PRIME Actually Thinks</h2>
+                  <p>
+                    TARGET lifecycle: work preparation, independent evaluation,
+                    governance and execution are separate responsibilities. The
+                    six TARGET brain stages are not claimed as deployed. Current
+                    Proof is the separately authorized evidence feed;
+                    qualification of governance does not qualify this full
+                    pipeline.
                   </p>
-                </section>
-                <section id="fabric">
-                  <div className="section-heading">
-                    <span className="ordinal">
-                      03 / CAPACITY WITHOUT CONFUSION
-                    </span>
-                    <h2>How 1,024 Logical Nodes Work</h2>
+                </div>
+                <div className="brain-strip">
+                  {brainNames.map((b) => (
+                    <span key={b}>{b}</span>
+                  ))}
+                </div>
+                <Flow title="PRIME ordered thinking flow" steps={primeSteps} />
+                <p className="boundary">
+                  Missing identity/policy/evidence/approval/simulation/signer
+                  requirements fail closed. Specialists prepare work but do not
+                  self-approve. Execution and evidence are distinct stages.
+                </p>
+              </section>
+              <section id="fabric">
+                <div className="section-heading">
+                  <span className="ordinal">
+                    03 / CAPACITY WITHOUT CONFUSION
+                  </span>
+                  <h2>How 1,024 Logical Nodes Work</h2>
+                </div>
+                <div className="capacity">
+                  <div>
+                    <p className="ordinal">TARGET CAPACITY</p>
+                    <strong>1,024</strong>
+                    <p>logical workers / architecture capacity</p>
+                    <MaturityBadge value="TARGET" />
                   </div>
-                  <div className="capacity">
-                    <div>
-                      <p className="ordinal">TARGET CAPACITY</p>
-                      <strong>1,024</strong>
-                      <p>logical workers / architecture capacity</p>
-                      <MaturityBadge value="TARGET" />
-                    </div>
-                    <div>
-                      <p className="ordinal">PRESENT FABRIC</p>
-                      {recordsFor("fabric").length ? (
-                        recordsFor("fabric").map((r) => (
-                          <EvidenceCard
-                            key={r.safeKey}
-                            record={r}
-                            onOpen={openEvidence}
-                          />
-                        ))
-                      ) : (
-                        <p>{noEvidence}</p>
-                      )}
-                      <p>
-                        Runtime counts must come from a dated authorized host
-                        snapshot. They are never inferred from the capacity
-                        target.
-                      </p>
-                    </div>
-                  </div>
-                  <p className="disclaimer">{capacityDisclaimer}</p>
-                  <div className="fabric-grid">
-                    {[
-                      [
-                        "Logical workers & role-aware classes",
-                        "Workers represent scoped capabilities. A class determines task eligibility, not unrestricted authority.",
-                      ],
-                      [
-                        "Task claims & permissions",
-                        "Claims have ownership and lifecycle boundaries. Least-privilege permissions constrain every task.",
-                      ],
-                      [
-                        "Routing & isolation",
-                        "PRIME routes eligible work; isolation separates roles, state and consequential execution.",
-                      ],
-                      [
-                        "Registry & observation",
-                        "The registry records workers, claims and observed health with freshness requirements.",
-                      ],
-                      [
-                        "Health & failure detection",
-                        "Health checks and missed-liveness signals detect failure; ambiguous state blocks consequential work.",
-                      ],
-                      [
-                        "Reassignment / recovery",
-                        "Recover eligible claims without duplicating effects; preserve failure and recovery receipts.",
-                      ],
-                      [
-                        "Capacity scaling",
-                        "Expand logical capacity only after isolation, backpressure, health and recovery qualification.",
-                      ],
-                    ].map(([title, text]) => (
-                      <article key={title}>
-                        <h3>{title}</h3>
-                        <p>{text}</p>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-                <section id="solana-path">
-                  <div className="section-heading">
-                    <span className="ordinal">04 / CHAIN TO CONTROL PLANE</span>
-                    <h2>Full Solana Integration Path</h2>
+                  <div>
+                    <p className="ordinal">PRESENT FABRIC</p>
+                    {recordsFor("fabric").length ? (
+                      recordsFor("fabric").map((r) => (
+                        <EvidenceCard
+                          key={r.safeKey}
+                          record={r}
+                          onOpen={openEvidence}
+                        />
+                      ))
+                    ) : (
+                      <p>{noEvidence}</p>
+                    )}
                     <p>
-                      Geyser/event ingestion and read-only observation feed the
-                      system. Governed execution is a separate target pathway.
+                      Runtime counts must come from a dated authorized host
+                      snapshot. They are never inferred from the capacity
+                      target.
                     </p>
                   </div>
-                  <Flow
-                    title="Solana integration flow"
-                    steps={solanaSteps}
-                    onFocus={(key) => setSection(`solana-path:${key}`)}
-                  />
-                  <div className="boundary">
-                    Current Geyser/read-only/golden-path evidence is supplied by
-                    the host. Target execution, multichain architecture and
-                    production/mainnet deployment remain separate claims.
-                    QUALIFIED ≠ DEPLOYED. TESTNET ≠ MAINNET. PAPER/SHADOW ≠ live
-                    trading.
-                  </div>
-                </section>
-              </>
-            )}
+                </div>
+                <p className="disclaimer">{capacityDisclaimer}</p>
+                <p className="boundary">
+                  TARGET architecture: every fabric mechanism below requires
+                  scoped implementation and qualification evidence.
+                </p>
+                <div className="fabric-grid">
+                  {[
+                    [
+                      "Logical workers & role-aware classes",
+                      "Workers represent scoped capabilities. A class determines task eligibility, not unrestricted authority.",
+                    ],
+                    [
+                      "Task claims & permissions",
+                      "Target claims have an owner, lease, expiry and attempt identity. Permission ceilings limit tools, data and destinations even after routing; reassignment must never enlarge authority.",
+                    ],
+                    [
+                      "Routing & isolation",
+                      "PRIME routes eligible work; isolation separates roles, state and consequential execution.",
+                    ],
+                    [
+                      "Registry & observation",
+                      "The registry records workers, claims and observed health with freshness requirements.",
+                    ],
+                    [
+                      "Health & failure detection",
+                      "Health checks and missed-liveness signals detect failure; ambiguous state blocks consequential work.",
+                    ],
+                    [
+                      "Reassignment / recovery",
+                      "Recover eligible claims without duplicating effects; preserve failure and recovery receipts.",
+                    ],
+                    [
+                      "Capacity scaling",
+                      "Expand logical capacity only after isolation, backpressure, health and recovery qualification.",
+                    ],
+                  ].map(([title, text]) => (
+                    <article key={title}>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+              <section id="solana-path">
+                <div className="section-heading">
+                  <span className="ordinal">04 / CHAIN TO CONTROL PLANE</span>
+                  <h2>Full Solana Integration Path</h2>
+                  <p>
+                    Geyser/event ingestion and read-only observation feed the
+                    system. Governed execution is a separate target pathway.
+                  </p>
+                </div>
+                <Flow
+                  title="Solana integration flow"
+                  steps={solanaSteps}
+                  onFocus={(key) => setSection(`solana-path:${key}`)}
+                />
+                <SolanaEngineering />
+                <div className="boundary">
+                  Current Geyser/read-only/golden-path evidence is supplied by
+                  the host. Target execution, multichain architecture and
+                  production/mainnet deployment remain separate claims.
+                  QUALIFIED ≠ DEPLOYED. TESTNET ≠ MAINNET. PAPER/SHADOW ≠ live
+                  trading.
+                </div>
+              </section>
+            </>
             <section id="comparison">
               <div className="section-heading">
                 <span className="ordinal">05 / TWO DISTINCT ANSWERS</span>
@@ -674,80 +706,8 @@ export function Showcase({
                 </table>
               </div>
             </section>
-            {mode === "full_vision" && (
-              <>
-                <section id="roadmap">
-                  <div className="section-heading">
-                    <span className="ordinal">06 / REMAINING INTEGRATION</span>
-                    <h2>What Will Be Finished</h2>
-                    <p>
-                      Unfinished workstreams. No invented dates, completion
-                      percentages or inferred production readiness.
-                    </p>
-                  </div>
-                  <ol className="roadmap">
-                    {roadmap.map((work) => (
-                      <li key={work}>
-                        <span>{work}</span>
-                        <MaturityBadge value="PLANNED" />
-                      </li>
-                    ))}
-                  </ol>
-                </section>
-                <section id="why-solana">
-                  <div className="section-heading">
-                    <span className="ordinal">07 / TECHNICAL FIT</span>
-                    <h2>Why Solana</h2>
-                    <p>
-                      A design case for event-driven integration, bounded by
-                      evidence.
-                    </p>
-                  </div>
-                  <div className="why-grid">
-                    <article>
-                      <span className="ordinal">01 / INGEST</span>
-                      <h3>Event-driven workloads</h3>
-                      <p>
-                        Geyser offers an integration surface for chain events. A
-                        scoped ingestion pipeline can feed PRIME routing and
-                        specialist analysis, with backpressure and provenance as
-                        explicit engineering requirements.
-                      </p>
-                    </article>
-                    <article>
-                      <span className="ordinal">02 / EVALUATE</span>
-                      <h3>Throughput with controls</h3>
-                      <p>
-                        The target supports high-throughput workloads through
-                        role-aware workers, simulation and independent
-                        evaluation. Performance and finality must be measured in
-                        the stated environment before production claims.
-                      </p>
-                    </article>
-                    <article>
-                      <span className="ordinal">03 / RECONCILE</span>
-                      <h3>Deterministic evidence paths</h3>
-                      <p>
-                        Separate read, proposal, approval, execution and receipt
-                        stages make outcomes inspectable. Deterministic receipt
-                        handling is a design requirement, not a guarantee that a
-                        live execution path exists.
-                      </p>
-                    </article>
-                    <article>
-                      <span className="ordinal">04 / CONNECT</span>
-                      <h3>Applications and permitted propagation</h3>
-                      <p>
-                        Wallets, tokenisation, market data and applications are
-                        target opportunities. A Solana-canonical multichain
-                        claim requires supplied evidence; the architecture alone
-                        does not prove it.
-                      </p>
-                    </article>
-                  </div>
-                </section>
-              </>
-            )}
+            <CompletionRoadmap />
+            <WhySolana />
             <section id="evidence">
               <div className="section-heading">
                 <span className="ordinal">08 / INSPECT THE CLAIM</span>

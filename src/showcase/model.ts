@@ -68,7 +68,7 @@ export interface ArchitectureNode {
 }
 export const noEvidence = "No approved implementation evidence published yet.";
 export const capacityDisclaimer =
-  "The 1,024 figure is the target/configured logical capacity of the architecture. It is not a claim that 1,024 physical servers or worker processes are currently deployed.";
+  "1,024 is logical-capacity / target architecture. It is not 1,024 currently running physical servers or worker processes.";
 export const brainNames = [
   "Self-Model",
   "Instinct Router",
@@ -276,22 +276,6 @@ export const comparisonKeys = [
   "settlement",
   "applications",
 ];
-export const roadmap = [
-  "Structured PRIME self-observation/runtime query completion",
-  "Node failure detection/recovery",
-  "Safe Geyser integration",
-  "Solana read-only adapter",
-  "Golden Path #2 / governed Solana pathway",
-  "PRIME ↔ Solana ↔ multichain integration",
-  "Expansion toward 1,024 logical-capacity fabric",
-  "Production hardening",
-  "Observability",
-  "Evidence automation",
-  "Wallet/payments integration",
-  "Tokenisation/settlement integration",
-  "Market-control integration",
-  "Regulatory/compliance readiness where applicable",
-];
 export const primeSteps = [
   [
     "Objective / Event",
@@ -340,8 +324,13 @@ export const primeSteps = [
 ] as const;
 export const solanaSteps = [
   [
-    "Solana Geyser / event ingestion",
-    "Normalize events and preserve provenance. Ingestion is distinct from execution authority.",
+    "Solana/local event",
+    "A scoped chain or local-validator event begins the TARGET pathway; it grants no authority.",
+    "geyser",
+  ],
+  [
+    "Read-only ingestion",
+    "Normalize events with cluster, slot and provenance. Reads cannot authorize signing or broadcast.",
     "geyser",
   ],
   [
@@ -350,7 +339,7 @@ export const solanaSteps = [
     "prime",
   ],
   [
-    "Specialist analysis",
+    "Specialist proposal",
     "Prepare chain-specific proposals without self-approval.",
     "specialists",
   ],
@@ -360,24 +349,19 @@ export const solanaSteps = [
     "simulation",
   ],
   [
-    "Governance",
+    "Governance/policy gate",
     "Apply identity, policy and approval requirements; fail closed.",
     "governance",
   ],
   [
-    "Controlled Solana adapter/execution path",
-    "Target governed execution is distinct from current read-only adapter or golden-path evidence. No mainnet claim follows from qualification.",
+    "Controlled adapter/execution boundary",
+    "Target governed execution is separate from current read-only qualification. No unrestricted signing or broadcast; no mainnet or real-funds claim.",
     "execution",
   ],
   [
     "Evidence/receipt",
-    "Record outcomes and environment-specific finality evidence.",
+    "Record outcomes, cluster, transaction identity and environment-specific finality evidence. Receipt creation is not proof of final settlement.",
     "receipts",
-  ],
-  [
-    "Multichain propagation where permitted",
-    "Propagate only with explicit policy and chain-specific qualification. Testnet is not mainnet.",
-    "multichain",
   ],
 ] as const;
 export const copilotPrompts = [

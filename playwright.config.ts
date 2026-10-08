@@ -3,10 +3,11 @@ const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
+  outputDir: "test-results/browser/traces",
   workers: 2,
   reporter: [
     ["list"],
-    ["json", { outputFile: "test-results/e2e-results.json" }],
+    ["json", { outputFile: "test-results/browser/e2e-results.json" }],
   ],
   use: {
     baseURL: "http://127.0.0.1:4173",

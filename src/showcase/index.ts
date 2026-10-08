@@ -15,3 +15,5 @@ export {
   type Maturity,
   type Mode,
 } from "./model";
+
+export { invalidateShowcaseEvidence, evidenceFreshnessMs } from "./cache";
